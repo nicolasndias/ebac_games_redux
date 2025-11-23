@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit' // ✅ importar PayloadAction
 import { Game } from '../../App'
 
 type CarrinhoState = {
@@ -9,11 +9,12 @@ const initialState: CarrinhoState = {
   itens: []
 }
 
-const carrinhoSlice = cresteSlice({
+const carrinhoSlice = createSlice({
   name: 'carrinho',
   initialState,
   reducers: {
-    adicionar: (state, action: PayloadAction<Game>) => {
+    adicionar: (state: CarrinhoState, action: PayloadAction<Game>) => {
+      // ✅ tipar state e action
       const jogo = action.payload
 
       if (state.itens.find((game) => game.id === jogo.id)) {

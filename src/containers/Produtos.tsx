@@ -1,22 +1,23 @@
 import { Game } from '../App'
 import Produto from '../components/Produto'
-
 import * as S from './styles'
 
-type Props = {
-  jogos: Game[]
-  adicionarAoCarrinho: (jogo: Game) => void
-}
+// ✅ Importar o hook do RTK Query
+import { useGetJogosQuery } from '../services/api'
 
-const Produtos = ({ jogos, adicionarAoCarrinho }: Props) => {
+const Produtos = () => {
+  const { data: jogos, isLoading } = useGetJogosQuery()
+
+  if (isLoading) {
+    return <h2>Carregando...</h2>
+  }
+
   return (
-    <>
-      <S.Produtos>
-        {jogos.map((game) => (
-          <Produto key={game.id} game={game} aoComprar={adicionarAoCarrinho} />
-        ))}
-      </S.Produtos>
-    </>
+    <S.Produtos>
+      {jogos?.map((game: Game) => (
+        <Produto key={game.id} game={game} />
+      ))}
+    </S.Produtos>
   )
 }
 
